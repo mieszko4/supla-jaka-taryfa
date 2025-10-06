@@ -6,8 +6,10 @@ import { getPrice as getG12Price } from "./tariff/g12.mjs";
 import { getPrice as getG12wPrice } from "./tariff/g12w.mjs";
 import { getPrice as getG12nPrice } from "./tariff/g12n.mjs";
 
+// TODO: Export .csv from supla
 const path = "ID10313_2025-05-10_12-05-28_measurements.csv"
 
+// TODO: Choose range (use exact `Date and time` values in .csv file)
 // 2023->2024 (365 days)
 //const overrideStart = '2023-10-05 12:01:21'
 //const overrideEnd = '2024-10-05 12:00:29'
