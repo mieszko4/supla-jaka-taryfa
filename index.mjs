@@ -3,6 +3,7 @@ import * as fs from 'node:fs';
 import { parseDateTime } from './lib/parseDateTime.mjs';
 import { getPrice as getG11Price } from "./tariff/g11.mjs";
 import { getPrice as getG12Price } from "./tariff/g12.mjs";
+import { getPrice as getG12asPrice } from "./tariff/g12as.mjs";
 import { getPrice as getG12wPrice, isCheapHour as isCheapHourG12w } from "./tariff/g12w.mjs";
 import { getPrice as getG12nPrice } from "./tariff/g12n.mjs";
 
@@ -102,6 +103,8 @@ const totalKWh = rows.reduce((prev, cur) => prev + cur.total, 0)
 const priceG11 = rows.reduce((prev, cur) => prev + getG11Price(cur.dateTime, cur.total), 0)
 // G12: Normal Day/Night
 const priceG12 = rows.reduce((prev, cur) => prev + getG12Price(cur.dateTime, cur.total), 0)
+// G12as: Anty-smogowa Day/Night
+const priceG12as = rows.reduce((prev, cur) => prev + getG12asPrice(cur.dateTime, cur.total), 0)
 // G12w: Weekend Day/Night
 const priceG12w = rows.reduce((prev, cur) => prev + getG12wPrice(cur.dateTime, cur.total), 0)
 // G12w: Sunday Day/Night
@@ -123,10 +126,13 @@ console.log({
   kWhCheapHoursG12wPct: kWhCheapHoursG12w/totalKWh * 100,
   priceG11,
   priceG12,
+  priceG12as,
   priceG12w,
   priceG12n,
   howMuchWouldItBeCheaperWithG12Sum: priceG11 - priceG12,
   howMuchWouldItBeCheaperWithG12Pct: (priceG11 - priceG12) / priceG11 * 100,
+  howMuchWouldItBeCheaperWithG12asSum: priceG11 - priceG12as,
+  howMuchWouldItBeCheaperWithG12asPct: (priceG11 - priceG12as) / priceG11 * 100,
   howMuchWouldItBeCheaperWithG12wSum: priceG11 - priceG12w,
   howMuchWouldItBeCheaperWithG12wPct: (priceG11 - priceG12w) / priceG11 * 100,
   howMuchWouldItBeCheaperWithG12nSum: priceG11 - priceG12n,
