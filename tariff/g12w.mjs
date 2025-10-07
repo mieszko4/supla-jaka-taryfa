@@ -1,12 +1,8 @@
 import { parseDateTime } from '../lib/parseDateTime.mjs';
-import { isWeekDay, SATURDAY, SUNDAY } from '../lib/isWeekDay.mjs';
+import { isSaturday, isSunday } from '../lib/isWeekDay.mjs';
 import { isFreeDay } from '../lib/isFreeDay.mjs';
 
-const isSaturday = (dateTime) => isWeekDay(dateTime, SATURDAY)
-
-const isSunday = (dateTime) => isWeekDay(dateTime, SUNDAY)
-
-const isCheapHour = (dateTime) => {
+export const isCheapHour = (dateTime) => {
     const isSummer = ['04', '05', '06', '07', '08', '09'].includes(dateTime.month)
 
     const cheapHours = isSummer

@@ -1,8 +1,6 @@
 import { parseDateTime } from '../lib/parseDateTime.mjs';
-import { isWeekDay, SUNDAY } from '../lib/isWeekDay.mjs';
+import { isSunday } from '../lib/isWeekDay.mjs';
 import { isFreeDay } from '../lib/isFreeDay.mjs';
-
-const isSunday = (dateTime) => isWeekDay(dateTime, SUNDAY)
 
 const isCheapHour = (dateTime) => {
     const cheapHours = ['01', '02', '03', '04']
