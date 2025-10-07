@@ -21,6 +21,7 @@ Do uruchomienia tego narzędzia potrzebujesz `dane z supla cloud` oraz zainstalo
 * najlepiej sprawdzić dane za 365 dni, gdyż zużycie prądu różni się w zależności od miesiąca w roku, ale powinno być podobne rok do roku przy tym samym zakresie używania domu i pogody
 * cena prądu jest taka sama przez cały rok dla danej taryfy
 * używany jest `Forward active Energy kWh - Vector balance`, ale dane z cloud supla są pobierane mniej więcej w 10 minutowych odstępach - bardziej dokładnie byłoby użyć 1 godzinnych odstępów ponieważ energia jest rozliczana przez dystrybutorów wektorowo cogodzinnie. Ten punkt ma tylko znaczenie gdy w domu zainstalowana jest fotowoltaika lub inne źródło energi, która jest oddawana do sieci
+* liczona jest cała pobrana energia z sieci niezależnie od tego czy to odebrana/zmagazynowana/swoja energia czy też nowa energia. To znaczy, że realna oszczędność będzie proporcjonalnie o tyle niższa o ile więcej jest energii która jest odebrana/zmagazynowana/swoja
 
 ## Test plan
 

@@ -3,8 +3,11 @@ import * as fs from 'node:fs';
 import { parseDateTime } from './lib/parseDateTime.mjs';
 import { getPrice as getG11Price } from "./tariff/g11.mjs";
 import { getPrice as getG12Price } from "./tariff/g12.mjs";
-import { getPrice as getG12wPrice } from "./tariff/g12w.mjs";
+import { getPrice as getG12wPrice, isCheapHour as isCheapHourG12w } from "./tariff/g12w.mjs";
 import { getPrice as getG12nPrice } from "./tariff/g12n.mjs";
+
+import { isSaturday, isSunday } from './lib/isWeekDay.mjs';
+import { isFreeDay } from './lib/isFreeDay.mjs';
 
 // TODO: Export .csv from supla
 const path = "ID10313_2025-05-10_12-05-28_measurements.csv"
@@ -104,8 +107,20 @@ const priceG12w = rows.reduce((prev, cur) => prev + getG12wPrice(cur.dateTime, c
 // G12w: Sunday Day/Night
 const priceG12n = rows.reduce((prev, cur) => prev + getG12nPrice(cur.dateTime, cur.total), 0)
 
+
+// Split of kWh
+const kWhSaturday = rows.filter(r => isSaturday(r.dateTime)).reduce((prev, cur) => prev + cur.total, 0)
+const kWhSunday = rows.filter(r => isSunday(r.dateTime)).reduce((prev, cur) => prev + cur.total, 0)
+const kWhFreeDay = rows.filter(r => !isSaturday(r.dateTime) && !isSunday(r.dateTime) && isFreeDay(r.dateTime)).reduce((prev, cur) => prev + cur.total, 0)
+
+const kWhCheapHoursG12w = rows.filter(r => !isSaturday(r.dateTime) && !isSunday(r.dateTime) && !isFreeDay(r.dateTime) && isCheapHourG12w(r.dateTime)).reduce((prev, cur) => prev + cur.total, 0)
+
 console.log({
   totalKWh,
+  kWhSaturdayPct: kWhSaturday/totalKWh * 100,
+  kWhSundayPct: kWhSunday/totalKWh * 100,
+  kWhFreeDayPct: kWhFreeDay/totalKWh * 100,
+  kWhCheapHoursG12wPct: kWhCheapHoursG12w/totalKWh * 100,
   priceG11,
   priceG12,
   priceG12w,
